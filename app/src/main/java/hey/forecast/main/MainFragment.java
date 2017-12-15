@@ -3,16 +3,20 @@ package hey.forecast.main;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,12 +50,12 @@ public class MainFragment extends Fragment implements MainContract.View {
     // Content View Elements
     private TextView mTextViewTemperature;
     private TextView mTextViewWeather;
-    private TextView mTextViewHumidity;
-    private TextView mTextViewWind_degree;
     private RecyclerView mRecyclerView;
     private SeekBar mSeekBar;
     private ImageView mImageView;
     private FloatingActionButton fab;
+    private Toolbar mToolbar;
+    private CollapsingToolbarLayout mToolbarLayout;
 
     // End Of Content View Elements
     public MainFragment() {
@@ -67,13 +71,13 @@ public class MainFragment extends Fragment implements MainContract.View {
     private void bindViews(View view) {
         mTextViewTemperature = view.findViewById(R.id.text_view_temperature);
         mTextViewWeather = view.findViewById(R.id.text_view_weather);
-        mTextViewHumidity = view.findViewById(R.id.text_view_humidity);
-        mTextViewWind_degree = view.findViewById(R.id.text_view_wind_degree);
         mSeekBar = view.findViewById(R.id.seek_bar);
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new AttrAdapter(getActivity()));
         mImageView = view.findViewById(R.id.image_view_weather);
+        mToolbar = view.findViewById(R.id.toolbar);
+        mToolbarLayout = view.findViewById(R.id.collapsing_tool_bar_layout);
         fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +103,9 @@ public class MainFragment extends Fragment implements MainContract.View {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         bindViews(root);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mToolbar.setTitleTextColor(Color.GRAY);
         mPresenter.start();
         return root;
     }
@@ -107,7 +114,6 @@ public class MainFragment extends Fragment implements MainContract.View {
     public void onResume() {
         super.onResume();
     }
-
 
     @Override
     public void setPresenter(@NonNull MainContract.Presenter presenter) {
@@ -169,12 +175,10 @@ public class MainFragment extends Fragment implements MainContract.View {
                         values,
                         units_now
                 );
-                getActivity().setTitle("天气预报/" + basic.getLocation());
+                mToolbarLayout.setTitle("天气预报/" + basic.getLocation());
                 showWeatherIcon(now.getCond_code());
                 mTextViewTemperature.setText(String.format("%s%s", now.getTmp(), getString(R.string.temperature_unit)));
-                mTextViewHumidity.setText(String.format("%s%s", now.getHum(), getString(R.string.percent)));
                 mTextViewWeather.setText(now.getCond_txt());
-                mTextViewWind_degree.setText(String.format("%s", now.getWind_sc()));
                 Log.d(TAG, "now: " + now);
 
             }

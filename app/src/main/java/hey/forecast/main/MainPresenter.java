@@ -19,10 +19,6 @@ import static hey.forecast.util.Const.KEY;
 import static hey.forecast.util.Const.NOW;
 import static hey.forecast.util.Const.okHttp;
 
-/**
- * Created by yhb on 17-12-14.
- */
-
 public class MainPresenter implements MainContract.Presenter {
     private static final String TAG = "MainPresenter";
     private MainContract.View mMainView;
