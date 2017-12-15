@@ -1,12 +1,9 @@
 package hey.forecast.main;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,27 +11,28 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import hey.forecast.R;
 import hey.forecast.entity.Basic;
 import hey.forecast.entity.DailyForecast;
+import hey.forecast.entity.Hourly;
+import hey.forecast.entity.LifeStyle;
 import hey.forecast.entity.Now;
 import hey.forecast.main.recycler.AttrAdapter;
+import hey.forecast.main.recycler.DailyForecastAdapter;
+import hey.forecast.main.recycler.HourlyAdapter;
+import hey.forecast.main.recycler.LifeStyleAdapter;
+import hey.forecast.util.AdapterDataExtractor;
 
 import static android.Manifest.permission.INTERNET;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -45,50 +43,55 @@ import static hey.forecast.main.MainActivity.TAG;
  */
 
 public class MainFragment extends Fragment implements MainContract.View {
-    private AssetManager mAssetManager;
     private MainContract.Presenter mPresenter;
-    // Content View Elements
-    private TextView mTextViewTemperature;
-    private TextView mTextViewWeather;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerViewAttr, mRecyclerViewHourly, mRecyclerViewDailyForecast, mRecyclerViewLifeStyle;
     private SeekBar mSeekBar;
-    private ImageView mImageView;
-    private FloatingActionButton fab;
-    private Toolbar mToolbar;
-    private CollapsingToolbarLayout mToolbarLayout;
+    private FloatingActionButton mFab;
 
-    // End Of Content View Elements
-    public MainFragment() {
-
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mAssetManager = getResources().getAssets();
-    }
+    private TextView mTextViewTemperatureMain, mTextViewWeatherMain, mTextViewEllipseMain;
+    private CollapsingToolbarLayout mActivityToolbarLayout;
+    private AppBarLayout mAppBarLayout;
 
     private void bindViews(View view) {
-        mTextViewTemperature = view.findViewById(R.id.text_view_temperature);
-        mTextViewWeather = view.findViewById(R.id.text_view_weather);
         mSeekBar = view.findViewById(R.id.seek_bar);
-        mRecyclerView = view.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new AttrAdapter(getActivity()));
-        mImageView = view.findViewById(R.id.image_view_weather);
-        mToolbar = view.findViewById(R.id.toolbar);
-        mToolbarLayout = view.findViewById(R.id.collapsing_tool_bar_layout);
-        fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mRecyclerViewAttr = view.findViewById(R.id.recycler_view_attr);
+        mRecyclerViewAttr.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerViewAttr.setAdapter(new AttrAdapter(getActivity()));
+
+        mRecyclerViewHourly = view.findViewById(R.id.recycler_view_hourly);
+        mRecyclerViewHourly.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mRecyclerViewHourly.setAdapter(new HourlyAdapter(getActivity()));
+
+        mRecyclerViewDailyForecast = view.findViewById(R.id.recycler_view_daily_forecast);
+        mRecyclerViewDailyForecast.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerViewDailyForecast.setAdapter(new DailyForecastAdapter(getActivity()));
+
+        mRecyclerViewLifeStyle = view.findViewById(R.id.recycler_view_life_style);
+        mRecyclerViewLifeStyle.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        mRecyclerViewLifeStyle.setAdapter(new LifeStyleAdapter(getActivity()));
+
+        mFab = view.findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 if (ContextCompat.checkSelfPermission(getActivity(), INTERNET) != PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(getActivity(), new String[]{INTERNET}, 5078);
                 } else {
                     mPresenter.getWeatherNow();
+                    mPresenter.getWeatherDailyForecast();
+                    mPresenter.getWeatherHourly();
+                    mPresenter.getWeatherLifeStyle();
                 }
             }
         });
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        mAppBarLayout = activity.findViewById(R.id.app_bar_layout);
+        mActivityToolbarLayout = activity.findViewById(R.id.collapsing_tool_bar_layout);
+        mTextViewTemperatureMain = activity.findViewById(R.id.text_view_temperature_main);
+        mTextViewWeatherMain = activity.findViewById(R.id.text_view_weather_main);
+        mTextViewEllipseMain = activity.findViewById(R.id.text_view_ellipse_main);
+
     }
 
     public static MainFragment newInstance() {
@@ -103,9 +106,6 @@ public class MainFragment extends Fragment implements MainContract.View {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         bindViews(root);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        mToolbar.setTitleTextColor(Color.GRAY);
         mPresenter.start();
         return root;
     }
@@ -141,95 +141,78 @@ public class MainFragment extends Fragment implements MainContract.View {
         });
     }
 
-
-    final String[] json_keys_now = new String[]{
-            "tmp", "fl", "cond_txt",
-            "wind_dir", "wind_sc",
-            "wind_spd", "hum", "pcpn",
-            "pres", "vis"
-    };
-    final String[] keys_now = new String[]{
-            "温度", "体感温度", "天气",
-            "风向", "风力",
-            "风速", "相对湿度", "降水量",
-            "大气压强", "能见度"
-    };
-    final String[] units_now = new String[]{
-            "℃", "℃", "",
-            "", "",
-            "公里/小时", "%", "",
-            "", "公里"
-    };
-
     @Override
     public void showWeatherNow(final Now now, final Basic basic) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Snackbar.make(fab, "获取数据成功！", Snackbar.LENGTH_LONG)
+                Snackbar.make(mFab, "获取数据成功！", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                final String[] values = extractValues(now);
-                ((AttrAdapter) mRecyclerView.getAdapter()).flush(
-                        keys_now,
-                        values,
-                        units_now
+                ((AttrAdapter) mRecyclerViewAttr.getAdapter()).flush(
+                        AdapterDataExtractor.keys_now,
+                        AdapterDataExtractor.extractValues(now),
+                        AdapterDataExtractor.units_now
                 );
-                mToolbarLayout.setTitle("天气预报/" + basic.getLocation());
-                showWeatherIcon(now.getCond_code());
-                mTextViewTemperature.setText(String.format("%s%s", now.getTmp(), getString(R.string.temperature_unit)));
-                mTextViewWeather.setText(now.getCond_txt());
-                Log.d(TAG, "now: " + now);
+
+                mActivityToolbarLayout.setTitle(basic.getLocation());
+                mTextViewTemperatureMain.setText(String.format("%s%s", now.getTmp(), getString(R.string.temperature_unit)));
+                mTextViewWeatherMain.setText(now.getCond_txt());
+                mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                    @Override
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                        if (Math.abs(verticalOffset) - appBarLayout.getTotalScrollRange() == 0) {
+                            //  Collapsed
+                            mActivityToolbarLayout.setTitle(
+                                    basic.getLocation()
+                                            + String.format("  %s", now.getCond_txt())
+                                            + String.format("  %s%s", now.getTmp(), getString(R.string.temperature_unit)
+                                    )
+                            );
+
+
+                        } else {
+                            //Expanded
+                            mActivityToolbarLayout.setTitle(
+                                    basic.getLocation()
+                            );
+
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void showWeatherDailyForecast(final DailyForecast[] dailyForecasts, Basic basic) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((DailyForecastAdapter) mRecyclerViewDailyForecast.getAdapter()).flush(dailyForecasts);
 
             }
         });
     }
 
-    private String[] extractValues(Now now) {
-        String[] values = new String[keys_now.length];
-        Method[] declaredMethods = Now.class.getDeclaredMethods();
-        for (int i = 0; i < json_keys_now.length; i++) {
-            String methodName = "get" + json_keys_now[i];
-            for (Method declaredMethod : declaredMethods) {
-                if (declaredMethod.getName().equalsIgnoreCase(methodName)) {
-                    try {
-                        values[i] = (String) declaredMethod.invoke(now);
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                }
+    @Override
+    public void showWeatherHourly(final Hourly[] hourlies, Basic basic) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((HourlyAdapter) mRecyclerViewHourly.getAdapter()).flush(hourlies);
             }
-        }
-        return values;
-    }
-
-    private void showWeatherIcon(String cond_code) {
-        InputStream iconStream = null;
-        try {
-
-            iconStream = mAssetManager.open(cond_code + ".png");
-            if (iconStream != null)
-                mImageView.setImageBitmap(BitmapFactory.decodeStream(iconStream));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (iconStream != null) {
-                    iconStream.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        });
     }
 
     @Override
-    public void showWeatherDailyForecast(DailyForecast[] dailyForecasts) {
-
+    public void showWeatherLifeStyle(final LifeStyle[] lifeStyles, Basic basic) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((LifeStyleAdapter) mRecyclerViewLifeStyle.getAdapter()).flush(lifeStyles);
+            }
+        });
     }
 
-    @Override
-    public void showWeatherDailyHourly(DailyForecast[] dailyForecasts) {
-
-    }
 }

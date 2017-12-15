@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/padding_fewer"
+    android:paddingEnd="@dimen/padding_small"
+    android:paddingStart="@dimen/padding_small">
+
+    <TextView
+        android:id="@+id/text_view_date_daily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:text="今天 12/15" />
+
+    <ImageView
+        android:id="@+id/image_view_weather_daily"
+        android:layout_width="@dimen/small_weather_icon_size"
+        android:layout_height="@dimen/small_weather_icon_size"
+        android:labelFor="@id/text_view_weather_hourly"
+        android:padding="@dimen/padding_fewer"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_umberella" />
+
+    <TextView
+        android:id="@+id/text_view_weather_daily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:text="晴" />
+
+    <TextView
+        android:id="@+id/text_view_temperature_range_daily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:text="18℃~35℃" />
+</LinearLayout>

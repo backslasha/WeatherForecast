@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/padding_small"
+    android:paddingStart="@dimen/padding_small">
+
+    <TextView
+        android:id="@+id/text_view_time_hourly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        tools:text="11:00" />
+
+    <ImageView
+        android:id="@+id/image_view_weather_hourly"
+        android:layout_width="@dimen/small_weather_icon_size"
+        android:layout_height="@dimen/small_weather_icon_size"
+        android:padding="0dp"
+        android:src="@drawable/ic_umberella" />
+
+    <TextView
+        android:id="@+id/text_view_weather_hourly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="晴" />
+
+    <TextView
+        android:id="@+id/text_view_temperature_hourly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/temperature_unit" />
+</LinearLayout>

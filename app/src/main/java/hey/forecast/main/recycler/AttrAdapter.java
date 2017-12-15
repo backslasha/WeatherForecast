@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import hey.forecast.R;
 
-/**
- * Created by yhb on 17-12-14.
- */
 
 public class AttrAdapter extends RecyclerView.Adapter<AttrAdapter.AttrVieHolder> {
 

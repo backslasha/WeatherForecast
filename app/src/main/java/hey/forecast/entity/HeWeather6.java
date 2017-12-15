@@ -10,7 +10,7 @@ public class HeWeather6 {
     Basic basic;
     DailyForecast[] daily_forecast;
     Hourly[] hourly;
-    LifeStyle[] life_style;
+    LifeStyle[] lifestyle;
     Now now;
     Update update;
 
@@ -22,12 +22,12 @@ public class HeWeather6 {
         this.hourly = hourly;
     }
 
-    public LifeStyle[] getLife_style() {
-        return life_style;
+    public LifeStyle[] getLifestyle() {
+        return lifestyle;
     }
 
-    public void setLife_style(LifeStyle[] life_style) {
-        this.life_style = life_style;
+    public void setLifestyle(LifeStyle[] lifestyle) {
+        this.lifestyle = lifestyle;
     }
 
     public Basic getBasic() {

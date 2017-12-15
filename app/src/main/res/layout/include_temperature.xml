@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_view_weather_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        tools:text="多云" />
+
+    <TextView
+        android:id="@+id/text_view_temperature_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="64sp"
+        android:textStyle="bold"
+        tools:text="20℃" />
+
+    <TextView
+        android:id="@+id/text_view_ellipse_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:text="和昨天温度持平" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="1dp"
+        android:layout_height="24dp" />
+</LinearLayout>

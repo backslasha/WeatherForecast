@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/padding_small"
-    android:paddingTop="@dimen/padding_fewer"
-    android:paddingBottom="@dimen/padding_fewer"
+    android:layout_margin="@dimen/padding_fewer"
     android:paddingEnd="@dimen/padding_small">
 
     <TextView
@@ -15,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/colorAccent"
-        android:textSize="16sp"
         tools:text="取啊" />
 
     <TextView
@@ -24,6 +22,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/colorAccent"
-        android:textSize="16sp"
         tools:text="取啊" />
 </LinearLayout>

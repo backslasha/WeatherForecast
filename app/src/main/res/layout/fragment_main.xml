@@ -1,118 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context="hey.forecast.main.MainActivity">
+    android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_attr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_insetEdge="top">
+        android:padding="@dimen/padding_middle"
+        android:paddingEnd="72dp"
+        tools:ignore="RtlSymmetry" />
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_tool_bar_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:collapsedTitleTextAppearance="@style/CollapsedAppBar"
-            app:expandedTitleTextAppearance="@style/CollapsedAppBar"
-            app:contentScrim="@android:color/white"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/test"
-                app:layout_collapseMode="parallax" />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:minHeight="?attr/actionBarSize"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:titleTextColor="@color/colorPrimary" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll_view"
+    <ImageView
+        android:id="@+id/divider1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_dodgeInsetEdges="top"
-        app:layout_insetEdge="bottom">
+        android:layout_height="1dp"
+        android:layout_below="@id/recycler_view_attr"
+        android:padding="@dimen/padding_middle"
+        android:src="@android:color/darker_gray" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_hourly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider1"
+        android:padding="@dimen/padding_middle"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        tools:ignore="RtlSymmetry" />
 
-            <LinearLayout
-                android:id="@+id/linear_layout_temperature"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:padding="@dimen/padding_small">
+    <ImageView
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/recycler_view_hourly"
+        android:padding="@dimen/padding_middle"
+        android:src="@android:color/darker_gray" />
 
-                <ImageView
-                    android:id="@+id/image_view_weather"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    tools:src="@drawable/test" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_daily_forecast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider2"
+        android:padding="@dimen/padding_middle"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        tools:ignore="RtlSymmetry" />
 
-                <TextView
-                    android:id="@+id/text_view_temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:textSize="64sp"
-                    tools:text="18℃" />
 
-                <TextView
-                    android:id="@+id/text_view_weather"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:textSize="32sp"
-                    tools:text="晴天" />
-            </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_life_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recycler_view_daily_forecast"
+        android:background="#DCDCDC"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingLeft="@dimen/padding_fewer"
+        android:paddingRight="@dimen/padding_fewer"
+        android:paddingTop="@dimen/padding_small"
+        tools:ignore="RtlSymmetry" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/linear_layout_temperature"
-                android:padding="@dimen/padding_small"
-                android:paddingEnd="72dp"
-                tools:ignore="RtlSymmetry" />
-        </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="18dp"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
     <android.support.v7.widget.AppCompatSeekBar
         android:id="@+id/seek_bar"
         style="@android:style/Widget.Material.Light.ProgressBar.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:thumb="@null"
         android:visibility="invisible"
         app:layout_anchor="@id/scroll_view"
         app:layout_anchorGravity="center"
         tools:ignore="NewApi" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
