@@ -16,42 +16,6 @@ import hey.forecast.entity.Now;
  */
 
 public class AdapterDataExtractor {
-    static final String[] json_keys_now = new String[]{
-            "fl",
-            "wind_dir", "wind_sc",
-            "wind_spd", "hum", "pcpn",
-            "pres", "vis"
-    };
-    public static final String[] keys_now = new String[]{
-           "体感温度",
-            "风向", "风力",
-            "风速", "相对湿度", "降水量",
-            "大气压强", "能见度"
-    };
-    public static final String[] units_now = new String[]{
-            "℃",
-            "", "",
-            "公里/小时", "%", "",
-            "", "公里"
-    };
-
-    public static String[] extractValues(Now now) {
-        String[] values = new String[keys_now.length];
-        Method[] declaredMethods = Now.class.getDeclaredMethods();
-        for (int i = 0; i < json_keys_now.length; i++) {
-            String methodName = "get" + json_keys_now[i];
-            for (Method declaredMethod : declaredMethods) {
-                if (declaredMethod.getName().equalsIgnoreCase(methodName)) {
-                    try {
-                        values[i] = (String) declaredMethod.invoke(now);
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        return values;
-    }
 
 
     public static void showWeatherIcon(ImageView imageView, String cond_code, AssetManager assetManager) {

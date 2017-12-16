@@ -22,10 +22,12 @@
         android:layout_height="@dimen/small_weather_icon_size"
         android:labelFor="@id/text_view_weather_hourly"
         android:padding="@dimen/padding_fewer"
+        android:textSize="16sp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_umberella" />
 
     <TextView
+        android:textSize="16sp"
         android:id="@+id/text_view_weather_daily"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,5 +39,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textSize="16sp"
         tools:text="18℃~35℃" />
 </LinearLayout>

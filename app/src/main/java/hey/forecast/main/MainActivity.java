@@ -43,8 +43,10 @@ public class MainActivity extends AppCompatActivity {
             mPresenter = new MainPresenter(mainFragment);
         }
 
+        int screenHeight = ActivityUtils.getScreenHeight(this);
 
         mToolbarLayout = findViewById(R.id.collapsing_tool_bar_layout);
+        mToolbarLayout.getLayoutParams().height = (int) (screenHeight * ActivityUtils.UP_PART_PERCENT);
         mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitleTextColor(Color.GRAY);
         setSupportActionBar(mToolbar);

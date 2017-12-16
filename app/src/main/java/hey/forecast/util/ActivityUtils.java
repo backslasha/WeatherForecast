@@ -16,10 +16,12 @@ package hey.forecast.util;
  */
 
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
@@ -28,6 +30,9 @@ import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
  * This provides methods to help Activities load their UI.
  */
 public class ActivityUtils {
+
+    public static final float UP_PART_PERCENT = 0.45f;
+    public static final float DOWN_PART_PERCENT = 0.55f;
 
     /**
      * The {@code fragment} is added to the container view with id {@code frameId}. The operation is
@@ -40,6 +45,18 @@ public class ActivityUtils {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(frameId, fragment);
         transaction.commit();
+    }
+
+    public static int getScreenHeight(Activity activity) {
+        DisplayMetrics out = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(out);
+        return out.heightPixels;
+    }
+
+    public static int getScreenWidth(Activity activity) {
+        DisplayMetrics out = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(out);
+        return out.widthPixels;
     }
 
 }

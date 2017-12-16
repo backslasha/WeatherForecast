@@ -14,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -28,9 +27,7 @@ import hey.forecast.main.recycler.AttrAdapter;
 import hey.forecast.main.recycler.DailyForecastAdapter;
 import hey.forecast.main.recycler.HourlyAdapter;
 import hey.forecast.main.recycler.LifeStyleAdapter;
-import hey.forecast.common.SimpleAdapter;
-import hey.forecast.common.SimpleHolder;
-import hey.forecast.util.AdapterDataExtractor;
+import hey.forecast.util.ActivityUtils;
 
 /**
  * Created by yhb on 17-12-14.
@@ -47,7 +44,10 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     private void bindViews(View view) {
         mSeekBar = view.findViewById(R.id.seek_bar);
+
+        int screenHeight = ActivityUtils.getScreenHeight(getActivity());
         mRecyclerViewAttr = view.findViewById(R.id.recycler_view_attr);
+        mRecyclerViewAttr.getLayoutParams().height = (int) (screenHeight* ActivityUtils.DOWN_PART_PERCENT);
         mRecyclerViewAttr.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewAttr.setAdapter(new AttrAdapter(getActivity()));
 
@@ -123,9 +123,9 @@ public class MainFragment extends Fragment implements MainContract.View {
                         .setAction("Action", null).show();
 
                 ((AttrAdapter) mRecyclerViewAttr.getAdapter()).flush(
-                        AdapterDataExtractor.keys_now,
-                        AdapterDataExtractor.extractValues(now),
-                        AdapterDataExtractor.units_now
+                        AttrAdapter.keys_now,
+                        AttrAdapter.extractValues(now),
+                        AttrAdapter.units_now
                 );
 
                 mActivityToolbarLayout.setTitle(basic.getLocation());
@@ -169,7 +169,6 @@ public class MainFragment extends Fragment implements MainContract.View {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void showWeatherHourly(final Hourly[] hourlies, Basic basic) {
         getActivity().runOnUiThread(new Runnable() {
             @Override

@@ -11,42 +11,30 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_middle"
         android:paddingEnd="72dp"
+        android:paddingBottom="@dimen/padding_small"
         tools:ignore="RtlSymmetry" />
 
-    <ImageView
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/recycler_view_attr"
-        android:padding="@dimen/padding_middle"
-        android:src="@android:color/darker_gray" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_hourly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/divider1"
-        android:padding="@dimen/padding_middle"
-        android:paddingBottom="@dimen/padding_small"
-        android:paddingTop="@dimen/padding_small"
+        android:layout_below="@id/recycler_view_attr"
+        android:layout_marginBottom="@dimen/margin_middle"
+        android:clipToPadding="false"
+        android:paddingEnd="@dimen/padding_middle"
+        android:paddingStart="@dimen/padding_middle"
         tools:ignore="RtlSymmetry" />
 
-    <ImageView
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/recycler_view_hourly"
-        android:padding="@dimen/padding_middle"
-        android:src="@android:color/darker_gray" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_daily_forecast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/divider2"
-        android:padding="@dimen/padding_middle"
+        android:layout_below="@id/recycler_view_hourly"
         android:paddingBottom="@dimen/padding_small"
-        android:paddingTop="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_middle"
+        android:paddingStart="@dimen/padding_middle"
         tools:ignore="RtlSymmetry" />
 
 
@@ -55,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/recycler_view_daily_forecast"
-        android:background="#DCDCDC"
+        android:background="#bbdcdcdc"
         android:paddingBottom="@dimen/padding_small"
         android:paddingLeft="@dimen/padding_fewer"
         android:paddingRight="@dimen/padding_fewer"

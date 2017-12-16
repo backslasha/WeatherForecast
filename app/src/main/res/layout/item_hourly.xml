@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="0dp"
+        android:textSize="12sp"
         tools:text="11:00" />
 
     <ImageView
@@ -26,11 +27,13 @@
         android:id="@+id/text_view_weather_hourly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="12sp"
         tools:text="晴" />
 
     <TextView
         android:id="@+id/text_view_temperature_hourly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="12sp"
         tools:text="@string/temperature_unit" />
 </LinearLayout>
