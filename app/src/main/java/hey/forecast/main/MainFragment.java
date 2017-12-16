@@ -5,20 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -32,11 +28,9 @@ import hey.forecast.main.recycler.AttrAdapter;
 import hey.forecast.main.recycler.DailyForecastAdapter;
 import hey.forecast.main.recycler.HourlyAdapter;
 import hey.forecast.main.recycler.LifeStyleAdapter;
+import hey.forecast.common.SimpleAdapter;
+import hey.forecast.common.SimpleHolder;
 import hey.forecast.util.AdapterDataExtractor;
-
-import static android.Manifest.permission.INTERNET;
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static hey.forecast.main.MainActivity.TAG;
 
 /**
  * Created by yhb on 17-12-14.
@@ -175,6 +169,7 @@ public class MainFragment extends Fragment implements MainContract.View {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void showWeatherHourly(final Hourly[] hourlies, Basic basic) {
         getActivity().runOnUiThread(new Runnable() {
             @Override

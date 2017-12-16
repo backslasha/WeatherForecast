@@ -17,19 +17,19 @@ import hey.forecast.entity.Now;
 
 public class AdapterDataExtractor {
     static final String[] json_keys_now = new String[]{
-            "tmp", "fl", "cond_txt",
+            "fl",
             "wind_dir", "wind_sc",
             "wind_spd", "hum", "pcpn",
             "pres", "vis"
     };
     public static final String[] keys_now = new String[]{
-            "温度", "体感温度", "天气",
+           "体感温度",
             "风向", "风力",
             "风速", "相对湿度", "降水量",
             "大气压强", "能见度"
     };
     public static final String[] units_now = new String[]{
-            "℃", "℃", "",
+            "℃",
             "", "",
             "公里/小时", "%", "",
             "", "公里"
