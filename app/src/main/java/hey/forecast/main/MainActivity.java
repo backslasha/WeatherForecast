@@ -3,16 +3,8 @@ package hey.forecast.main;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,14 +14,10 @@ import android.view.View;
 import hey.forecast.R;
 import hey.forecast.util.ActivityUtils;
 
-import static android.Manifest.permission.INTERNET;
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    private MainPresenter mMainPresent;
-
+    private MainPresenter mPresenter;
     private Toolbar mToolbar;
     private CollapsingToolbarLayout mToolbarLayout;
 
@@ -52,30 +40,40 @@ public class MainActivity extends AppCompatActivity {
             mainFragment = MainFragment.newInstance();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     mainFragment, R.id.container);
+            mPresenter = new MainPresenter(mainFragment);
         }
 
-        mMainPresent = new MainPresenter(mainFragment);
 
-        mToolbar = findViewById(R.id.toolbar);
         mToolbarLayout = findViewById(R.id.collapsing_tool_bar_layout);
-        mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitleTextColor(Color.GRAY);
         setSupportActionBar(mToolbar);
     }
 
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 5078:
-                if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
-//                    getData();
-                } else {
-
-                }
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main_menu, menu);
+        return true;
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.city_manage:
+                break;
+            case R.id.setting:
+                break;
+            case R.id.share:
+                break;
+            case R.id.refresh:
+                mPresenter.getWeatherNow();
+                mPresenter.getWeatherDailyForecast();
+                mPresenter.getWeatherHourly();
+                mPresenter.getWeatherLifeStyle();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 }

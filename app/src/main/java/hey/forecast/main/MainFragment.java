@@ -46,7 +46,6 @@ public class MainFragment extends Fragment implements MainContract.View {
     private MainContract.Presenter mPresenter;
     private RecyclerView mRecyclerViewAttr, mRecyclerViewHourly, mRecyclerViewDailyForecast, mRecyclerViewLifeStyle;
     private SeekBar mSeekBar;
-    private FloatingActionButton mFab;
 
     private TextView mTextViewTemperatureMain, mTextViewWeatherMain, mTextViewEllipseMain;
     private CollapsingToolbarLayout mActivityToolbarLayout;
@@ -69,21 +68,6 @@ public class MainFragment extends Fragment implements MainContract.View {
         mRecyclerViewLifeStyle = view.findViewById(R.id.recycler_view_life_style);
         mRecyclerViewLifeStyle.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         mRecyclerViewLifeStyle.setAdapter(new LifeStyleAdapter(getActivity()));
-
-        mFab = view.findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                if (ContextCompat.checkSelfPermission(getActivity(), INTERNET) != PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{INTERNET}, 5078);
-                } else {
-                    mPresenter.getWeatherNow();
-                    mPresenter.getWeatherDailyForecast();
-                    mPresenter.getWeatherHourly();
-                    mPresenter.getWeatherLifeStyle();
-                }
-            }
-        });
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         mAppBarLayout = activity.findViewById(R.id.app_bar_layout);
@@ -108,11 +92,6 @@ public class MainFragment extends Fragment implements MainContract.View {
         bindViews(root);
         mPresenter.start();
         return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -146,7 +125,7 @@ public class MainFragment extends Fragment implements MainContract.View {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Snackbar.make(mFab, "获取数据成功！", Snackbar.LENGTH_LONG)
+                Snackbar.make(getView(), "获取数据成功！", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 ((AttrAdapter) mRecyclerViewAttr.getAdapter()).flush(

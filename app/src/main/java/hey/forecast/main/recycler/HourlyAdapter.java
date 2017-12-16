@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import hey.forecast.R;
 import hey.forecast.entity.Hourly;
@@ -41,6 +42,10 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.HourlyView
     }
 
     public void flush(Hourly[] hourlies) {
+        if (hourlies == null) {
+            Toast.makeText(context, R.string.netError, Toast.LENGTH_SHORT).show();
+            return;
+        }
         this.mHourlies = hourlies;
         notifyItemChanged(0, hourlies.length);
     }
