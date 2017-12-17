@@ -23,7 +23,9 @@ public class CityChooseActivity extends BaseFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return CityChooseFragment.newInstance();
+        CityChooseFragment cityChooseFragment = CityChooseFragment.newInstance();
+        mPresenter = new CityChoosePresenter(cityChooseFragment);
+        return cityChooseFragment;
     }
 
     @Override
@@ -35,6 +37,7 @@ public class CityChooseActivity extends BaseFragmentActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
 
     }
 }

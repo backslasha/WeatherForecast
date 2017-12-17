@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
 
@@ -28,7 +27,9 @@ public class CityAddActivity extends BaseFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return CityAddFragment.newInstance();
+        CityAddFragment cityAddFragment = CityAddFragment.newInstance();
+        mPresenter = new CityAddPresenter(cityAddFragment);
+        return cityAddFragment;
     }
 
     @Override
@@ -42,7 +43,6 @@ public class CityAddActivity extends BaseFragmentActivity {
         }
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -54,17 +54,8 @@ public class CityAddActivity extends BaseFragmentActivity {
     }
 
     private void handleQuery(String query) {
-            Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
+        mPresenter.performQuery(query);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-        return true;
-    }
+
 }

@@ -1,5 +1,7 @@
 package hey.forecast.add_city;
 
+import java.util.List;
+
 import hey.forecast.BasePresenter;
 import hey.forecast.BaseView;
 
@@ -10,12 +12,11 @@ import hey.forecast.BaseView;
 public interface CityAddContract {
 
     interface View extends BaseView<Presenter> {
-
-
+        void showQueryResult(List<String> results);
     }
 
     interface Presenter extends BasePresenter {
-
+        void performQuery(String query);
     }
 
 }
