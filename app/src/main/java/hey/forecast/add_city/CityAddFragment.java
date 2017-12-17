@@ -22,11 +22,10 @@ import android.widget.Toast;
 import java.util.List;
 
 import hey.forecast.R;
-import hey.forecast.choose_city.CityChooseFragment;
 import hey.forecast.common.SimpleAdapter;
 import hey.forecast.common.SimpleHolder;
 
-import static hey.forecast.util.Const.CITY_NAME;
+import static hey.forecast.util.Const.EXTRA_CITY_NAME;
 
 /**
  * Created by yhb on 17-12-16.
@@ -89,7 +88,7 @@ public class CityAddFragment extends android.support.v4.app.Fragment implements 
                     @Override
                     public void onClick(View v) {
                         Intent intent = getActivity().getIntent();
-                        intent.putExtra(CITY_NAME,cityName);
+                        intent.putExtra(EXTRA_CITY_NAME,cityName);
                         getActivity().setResult(Activity.RESULT_OK, intent);
                         getActivity().finish();
                     }

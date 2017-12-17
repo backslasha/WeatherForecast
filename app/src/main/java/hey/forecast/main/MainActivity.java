@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     mainFragment, R.id.container);
         }
-        mPresenter = new MainPresenter(mainFragment);
+        mPresenter = new MainPresenter(this, mainFragment);
 
         int screenHeight = ActivityUtils.getScreenHeight(this);
 

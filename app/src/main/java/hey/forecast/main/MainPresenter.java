@@ -1,5 +1,6 @@
 package hey.forecast.main;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -8,12 +9,14 @@ import com.google.gson.Gson;
 import java.io.IOException;
 
 import hey.forecast.entity.response.Data;
+import hey.forecast.util.SPUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static hey.forecast.util.Const.SP_KEY_CURRENT_CITY;
 import static hey.forecast.util.Const.ENDPOINT;
 import static hey.forecast.util.Const.FORECAST;
 import static hey.forecast.util.Const.HOURLY;
@@ -25,15 +28,19 @@ import static hey.forecast.util.Const.okHttp;
 public class MainPresenter implements MainContract.Presenter {
     private static final String TAG = "MainPresenter";
     private MainContract.View mMainView;
-    private String mCurrentCity = "广州";
+    private Context mContext;
+    private static final String DEFAULT_CITY = "广州";
+    private String mCurrentCity = DEFAULT_CITY;
 
-    public MainPresenter(MainContract.View mainView) {
+    public MainPresenter(Context context, MainContract.View mainView) {
+        mContext = context;
         mMainView = mainView;
         mMainView.setPresenter(this);
     }
 
     @Override
     public void start() {
+        mCurrentCity = (String) SPUtils.get(mContext, SP_KEY_CURRENT_CITY, DEFAULT_CITY);
         getWeatherNow();
         getWeatherHourly();
         getWeatherDailyForecast();
@@ -168,5 +175,6 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void setCurrentCity(String currentCity) {
         mCurrentCity = currentCity;
+        SPUtils.put(mContext, SP_KEY_CURRENT_CITY, mCurrentCity);
     }
 }

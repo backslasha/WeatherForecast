@@ -48,7 +48,17 @@ public abstract class SimpleAdapter<Entity> extends RecyclerView.Adapter<SimpleH
         }
         this.mEntities = new ArrayList<>();
         this.mEntities.addAll(Arrays.asList(entities));
-        notifyItemChanged(0, entities.length);
+        notifyItemChanged(0, null);
+    }
+
+    public void performDataChanged(List<Entity> entities) {
+        if (entities == null) {
+            Toast.makeText(mContext, R.string.netError, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        this.mEntities = new ArrayList<>();
+        this.mEntities.addAll(entities);
+        notifyItemChanged(0, null);
     }
 
     public void addSingleData(Entity entity) {

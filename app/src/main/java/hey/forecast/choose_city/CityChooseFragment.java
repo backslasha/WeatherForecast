@@ -12,15 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import hey.forecast.R;
 import hey.forecast.add_city.CityAddActivity;
 import hey.forecast.common.SimpleAdapter;
 import hey.forecast.common.SimpleHolder;
 import hey.forecast.common.SimpleItemTouchHelper;
-import hey.forecast.entity.City;
 
 import static android.app.Activity.RESULT_OK;
-import static hey.forecast.util.Const.CITY_NAME;
+import static hey.forecast.util.Const.EXTRA_CITY_NAME;
 
 /**
  * Created by yhb on 17-12-16.
@@ -40,14 +41,12 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
     private CityChooseContract.Presenter mPresenter;
     private RecyclerView mRecyclerViewCity;
 
-    private FloatingActionButton mFab;
-
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_city_choose, container, false);
 
-        mFab = view.findViewById(R.id.fab_add);
-        mFab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = view.findViewById(R.id.fab_add);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = CityAddActivity.newIntent(getActivity());
@@ -57,22 +56,21 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
 
         mRecyclerViewCity = view.findViewById(R.id.recycler_view_city_choose);
 
-        displayCites(mRecyclerViewCity);
+        initCitesRecyclerView(mRecyclerViewCity);
+
+        mPresenter.start();
 
         return view;
     }
 
-    private void displayCites(RecyclerView recyclerViewCity) {
-        recyclerViewCity.setAdapter(new SimpleAdapter<City>(getActivity(), R.layout.item_city) {
+
+    private void initCitesRecyclerView(RecyclerView recyclerViewCity) {
+        recyclerViewCity.setAdapter(new SimpleAdapter<String>(getActivity(), R.layout.item_city) {
             @Override
-            public void forEachHolder(SimpleHolder holder, final City city) {
-                ((TextView) holder.getView(R.id.text_view_city)).setText(city.getName());
+            public void forEachHolder(SimpleHolder holder, final String city) {
+                ((TextView) holder.getView(R.id.text_view_city)).setText(city);
                 ((TextView) holder.getView(R.id.text_view_weather_temperature)).setText(
-                        String.format("%s%s%s",
-                                city.getWeather(),
-                                city.getTemperature(),
-                                getString(R.string.temperature_unit)
-                        )
+                        String.format("- -%s", getString(R.string.temperature_unit))
                 );
                 holder.getView(R.id.image_view_city).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -91,22 +89,20 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
             }
         });
         recyclerViewCity.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        ((SimpleAdapter<City>) recyclerViewCity.getAdapter()).performDataChanged(
-                new City[]{
-                        new City("广州", "晴天", "8"),
-                        new City("汕头", "阴天", "-3"),
-                        new City("北京", "晴天", "8")
-                }
-        );
         new SimpleItemTouchHelper().attachToRecyclerView(recyclerViewCity);
     }
 
-    private void requestSwitchTo(City city) {
+
+    private void requestSwitchTo(String city) {
         Intent intent = getActivity().getIntent();
-        intent.putExtra(CITY_NAME, city.getName());
+        intent.putExtra(EXTRA_CITY_NAME, city);
         getActivity().setResult(RESULT_OK, intent);
         getActivity().finish();
+    }
+
+    @Override
+    public void showCites(List<String> cities) {
+        ((SimpleAdapter<String>) mRecyclerViewCity.getAdapter()).performDataChanged(cities);
     }
 
     @Override
@@ -119,11 +115,16 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_CITY && resultCode == RESULT_OK) {
             if (data != null) {
-                String cityName = data.getStringExtra(CITY_NAME);
-                ((SimpleAdapter<City>) mRecyclerViewCity.getAdapter())
-                        .addSingleData(new City(cityName, "", ""));
+                String cityName = data.getStringExtra(EXTRA_CITY_NAME);
+                ((SimpleAdapter<String>) mRecyclerViewCity.getAdapter())
+                        .addSingleData(cityName);
+
+                mPresenter.saveCitesToSP(cityName);
                 Snackbar.make(getView(), "新增城市:" + cityName, Snackbar.LENGTH_SHORT).show();
+
             }
         }
     }
+
+
 }

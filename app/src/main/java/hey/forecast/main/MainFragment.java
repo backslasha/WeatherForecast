@@ -35,7 +35,7 @@ import hey.forecast.main.recycler.LifeStyleAdapter;
 import hey.forecast.util.ActivityUtils;
 
 import static android.app.Activity.RESULT_OK;
-import static hey.forecast.util.Const.CITY_NAME;
+import static hey.forecast.util.Const.EXTRA_CITY_NAME;
 
 /**
  * Created by yhb on 17-12-14.
@@ -209,7 +209,7 @@ public class MainFragment extends Fragment implements MainContract.View {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SWITCH_CITY && resultCode == RESULT_OK) {
             if (data != null) {
-                String cityName = data.getStringExtra(CITY_NAME);
+                String cityName = data.getStringExtra(EXTRA_CITY_NAME);
                 mPresenter.setCurrentCity(cityName);
                 mPresenter.getWeatherNow();
                 mPresenter.getWeatherHourly();

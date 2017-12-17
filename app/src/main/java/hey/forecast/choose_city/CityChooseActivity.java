@@ -1,13 +1,11 @@
 package hey.forecast.choose_city;
 
 import android.app.ActionBar;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.widget.Toast;
 
 import hey.forecast.BaseFragmentActivity;
 
@@ -24,7 +22,7 @@ public class CityChooseActivity extends BaseFragmentActivity {
     @Override
     protected Fragment createFragment() {
         CityChooseFragment cityChooseFragment = CityChooseFragment.newInstance();
-        mPresenter = new CityChoosePresenter(cityChooseFragment);
+        mPresenter = new CityChoosePresenter(this, cityChooseFragment);
         return cityChooseFragment;
     }
 
