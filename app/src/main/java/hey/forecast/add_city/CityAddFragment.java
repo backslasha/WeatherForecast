@@ -26,6 +26,8 @@ import hey.forecast.choose_city.CityChooseFragment;
 import hey.forecast.common.SimpleAdapter;
 import hey.forecast.common.SimpleHolder;
 
+import static hey.forecast.util.Const.CITY_NAME;
+
 /**
  * Created by yhb on 17-12-16.
  */
@@ -87,7 +89,7 @@ public class CityAddFragment extends android.support.v4.app.Fragment implements 
                     @Override
                     public void onClick(View v) {
                         Intent intent = getActivity().getIntent();
-                        intent.putExtra(CityChooseFragment.CITY_NAME,cityName);
+                        intent.putExtra(CITY_NAME,cityName);
                         getActivity().setResult(Activity.RESULT_OK, intent);
                         getActivity().finish();
                     }

@@ -1,5 +1,6 @@
 package hey.forecast.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,12 +13,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import hey.forecast.R;
+import hey.forecast.choose_city.CityChooseActivity;
 import hey.forecast.entity.response.Basic;
 import hey.forecast.entity.response.DailyForecast;
 import hey.forecast.entity.response.Hourly;
@@ -29,11 +34,15 @@ import hey.forecast.main.recycler.HourlyAdapter;
 import hey.forecast.main.recycler.LifeStyleAdapter;
 import hey.forecast.util.ActivityUtils;
 
+import static android.app.Activity.RESULT_OK;
+import static hey.forecast.util.Const.CITY_NAME;
+
 /**
  * Created by yhb on 17-12-14.
  */
 
 public class MainFragment extends Fragment implements MainContract.View {
+    private static final int SWITCH_CITY = 3;
     private MainContract.Presenter mPresenter;
     private RecyclerView mRecyclerViewAttr, mRecyclerViewHourly, mRecyclerViewDailyForecast, mRecyclerViewLifeStyle;
     private SeekBar mSeekBar;
@@ -47,7 +56,7 @@ public class MainFragment extends Fragment implements MainContract.View {
 
         int screenHeight = ActivityUtils.getScreenHeight(getActivity());
         mRecyclerViewAttr = view.findViewById(R.id.recycler_view_attr);
-        mRecyclerViewAttr.getLayoutParams().height = (int) (screenHeight* ActivityUtils.DOWN_PART_PERCENT);
+        mRecyclerViewAttr.getLayoutParams().height = (int) (screenHeight * ActivityUtils.DOWN_PART_PERCENT);
         mRecyclerViewAttr.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewAttr.setAdapter(new AttrAdapter(getActivity()));
 
@@ -77,6 +86,12 @@ public class MainFragment extends Fragment implements MainContract.View {
         MainFragment fragment = new MainFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -186,6 +201,51 @@ public class MainFragment extends Fragment implements MainContract.View {
                 ((LifeStyleAdapter) mRecyclerViewLifeStyle.getAdapter()).flush(lifeStyles);
             }
         });
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SWITCH_CITY && resultCode == RESULT_OK) {
+            if (data != null) {
+                String cityName = data.getStringExtra(CITY_NAME);
+                mPresenter.setCurrentCity(cityName);
+                mPresenter.getWeatherNow();
+                mPresenter.getWeatherHourly();
+                mPresenter.getWeatherDailyForecast();
+                mPresenter.getWeatherLifeStyle();
+                Snackbar.make(getView(), "切换到城市:" + cityName, Snackbar.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.activity_main_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.city_manage:
+                Intent intent = CityChooseActivity.newIntent(getActivity());
+                startActivityForResult(intent, SWITCH_CITY);
+                break;
+            case R.id.setting:
+                break;
+            case R.id.share:
+                break;
+            case R.id.refresh:
+                mPresenter.getWeatherNow();
+                mPresenter.getWeatherDailyForecast();
+                mPresenter.getWeatherHourly();
+                mPresenter.getWeatherLifeStyle();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
 }

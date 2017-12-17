@@ -28,7 +28,7 @@ public class Const {
     public static final String NOW = "now";// 天气实况
     public static final String HOURLY = "hourly";// 天气实况
     public static final String LIFESTYLE = "lifestyle";// 天气实况
-
+    public static final String CITY_NAME = "CITY_NAME";
 
     public static final String WALL_PAPER = "https://bing.ioliu.cn/v1?d=1&w=1280&h=768";
 

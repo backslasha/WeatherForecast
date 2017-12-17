@@ -23,6 +23,7 @@ public interface MainContract {
 
     }
     interface Presenter extends BasePresenter{
+        void setCurrentCity(String currentCity);
         void getWeatherNow();
         void getWeatherHourly();
         void getWeatherLifeStyle();

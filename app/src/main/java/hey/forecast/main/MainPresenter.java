@@ -25,7 +25,7 @@ import static hey.forecast.util.Const.okHttp;
 public class MainPresenter implements MainContract.Presenter {
     private static final String TAG = "MainPresenter";
     private MainContract.View mMainView;
-
+    private String mCurrentCity = "广州";
 
     public MainPresenter(MainContract.View mainView) {
         mMainView = mainView;
@@ -45,7 +45,7 @@ public class MainPresenter implements MainContract.Presenter {
         final HttpUrl httpUrl = HttpUrl.parse(ENDPOINT + NOW)
                 .newBuilder()
                 .addQueryParameter("key", KEY)
-                .addQueryParameter("location", "北京")
+                .addQueryParameter("location", mCurrentCity)
                 .build();
         final Request request = new Request.Builder()
                 .url(httpUrl)
@@ -77,7 +77,7 @@ public class MainPresenter implements MainContract.Presenter {
         final HttpUrl httpUrl = HttpUrl.parse(ENDPOINT + HOURLY)
                 .newBuilder()
                 .addQueryParameter("key", KEY)
-                .addQueryParameter("location", "北京")
+                .addQueryParameter("location", mCurrentCity)
                 .build();
         final Request request = new Request.Builder()
                 .url(httpUrl)
@@ -108,7 +108,7 @@ public class MainPresenter implements MainContract.Presenter {
         final HttpUrl httpUrl = HttpUrl.parse(ENDPOINT + LIFESTYLE)
                 .newBuilder()
                 .addQueryParameter("key", KEY)
-                .addQueryParameter("location", "北京")
+                .addQueryParameter("location", mCurrentCity)
                 .build();
         final Request request = new Request.Builder()
                 .url(httpUrl)
@@ -139,7 +139,7 @@ public class MainPresenter implements MainContract.Presenter {
         final HttpUrl httpUrl = HttpUrl.parse(ENDPOINT + FORECAST)
                 .newBuilder()
                 .addQueryParameter("key", KEY)
-                .addQueryParameter("location", "北京")
+                .addQueryParameter("location", mCurrentCity)
                 .build();
         final Request request = new Request.Builder()
                 .url(httpUrl)
@@ -163,5 +163,10 @@ public class MainPresenter implements MainContract.Presenter {
             }
 
         });
+    }
+
+    @Override
+    public void setCurrentCity(String currentCity) {
+        mCurrentCity = currentCity;
     }
 }
