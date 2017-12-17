@@ -48,7 +48,7 @@ public abstract class SimpleAdapter<Entity> extends RecyclerView.Adapter<SimpleH
         }
         this.mEntities = new ArrayList<>();
         this.mEntities.addAll(Arrays.asList(entities));
-        notifyItemChanged(0, null);
+        notifyItemRangeChanged(0, mEntities.size());
     }
 
     public void performDataChanged(List<Entity> entities) {
@@ -58,7 +58,7 @@ public abstract class SimpleAdapter<Entity> extends RecyclerView.Adapter<SimpleH
         }
         this.mEntities = new ArrayList<>();
         this.mEntities.addAll(entities);
-        notifyItemChanged(0, null);
+        notifyItemRangeChanged(0, mEntities.size());
     }
 
     public void addSingleData(Entity entity) {
@@ -67,6 +67,18 @@ public abstract class SimpleAdapter<Entity> extends RecyclerView.Adapter<SimpleH
         }
         mEntities.add(entity);
         notifyItemInserted(mEntities.size() - 1);
+    }
+
+    public void removeSingleData(Entity entity) {
+        if (mEntities == null) {
+            throw new IllegalArgumentException("performDataChanged() first to create a array inside!");
+        }
+        int position = mEntities.indexOf(entity);
+        if (position != -1) {
+            mEntities.remove(entity);
+        }
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mEntities.size() - position -1);
     }
 
     @Override

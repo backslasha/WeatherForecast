@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
 
 import hey.forecast.R;
 import hey.forecast.add_city.CityAddActivity;
@@ -36,10 +37,10 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
         return cityChooseFragment;
     }
 
-
     private static final int ADD_CITY = 1;
     private CityChooseContract.Presenter mPresenter;
     private RecyclerView mRecyclerViewCity;
+    private CityChooseContract.RealTimeDataSupport mRealTimeDataSupport;
 
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,19 +64,24 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
         return view;
     }
 
-
     private void initCitesRecyclerView(RecyclerView recyclerViewCity) {
         recyclerViewCity.setAdapter(new SimpleAdapter<String>(getActivity(), R.layout.item_city) {
             @Override
-            public void forEachHolder(SimpleHolder holder, final String city) {
+            public void forEachHolder(final SimpleHolder holder, final String city) {
                 ((TextView) holder.getView(R.id.text_view_city)).setText(city);
-                ((TextView) holder.getView(R.id.text_view_weather_temperature)).setText(
-                        String.format("- -%s", getString(R.string.temperature_unit))
-                );
+
+                String weatherAndTemperature;
+                if (mRealTimeDataSupport != null) {
+                    weatherAndTemperature = String.format("%s%s", mRealTimeDataSupport.getWeatherAndTemperature().get(city), getString(R.string.temperature_unit));
+                } else {
+                    weatherAndTemperature = String.format("--%s", getString(R.string.temperature_unit));
+                }
+                ((TextView) holder.getView(R.id.text_view_weather_temperature)).setText(weatherAndTemperature);
                 holder.getView(R.id.image_view_city).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        ((SimpleAdapter<String>) mRecyclerViewCity.getAdapter()).removeSingleData(city);
+                        mPresenter.removeCityFromSP(city);
                     }
                 });
 
@@ -89,7 +95,7 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
             }
         });
         recyclerViewCity.setLayoutManager(new LinearLayoutManager(getActivity()));
-        new SimpleItemTouchHelper().attachToRecyclerView(recyclerViewCity);
+//        new SimpleItemTouchHelper().attachToRecyclerView(recyclerViewCity);
     }
 
 
@@ -101,8 +107,18 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
     }
 
     @Override
-    public void showCites(List<String> cities) {
-        ((SimpleAdapter<String>) mRecyclerViewCity.getAdapter()).performDataChanged(cities);
+    public void showCites(final List<String> cities) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((SimpleAdapter<String>) mRecyclerViewCity.getAdapter()).performDataChanged(cities);
+            }
+        });
+    }
+
+    @Override
+    public void setRealTimeDataSupport(CityChooseContract.RealTimeDataSupport realTimeDataSupport) {
+        mRealTimeDataSupport = realTimeDataSupport;
     }
 
     @Override
