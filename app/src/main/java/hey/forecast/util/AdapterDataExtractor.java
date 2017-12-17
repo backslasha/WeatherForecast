@@ -6,10 +6,6 @@ import android.widget.ImageView;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import hey.forecast.entity.Now;
 
 /**
  * Created by yhb on 17-12-15.

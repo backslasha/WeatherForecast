@@ -8,13 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import hey.forecast.R;
-import hey.forecast.entity.DailyForecast;
+import hey.forecast.entity.response.DailyForecast;
 import hey.forecast.util.AdapterDataExtractor;
 import hey.forecast.util.DateUtils;
 

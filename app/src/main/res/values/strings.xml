@@ -15,4 +15,6 @@
     <string name="city_manage">城市管理</string>
     <string name="setting">设置</string>
     <string name="refresh">刷新</string>
+    <string name="search">Search</string>
+    <string name="search_hint">搜索</string>
 </resources>

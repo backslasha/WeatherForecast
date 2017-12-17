@@ -1,4 +1,4 @@
-package hey.forecast.entity;
+package hey.forecast.entity.response;
 
 import java.util.Arrays;
 
@@ -16,11 +16,11 @@ public class Data {
                 '}';
     }
 
-    public hey.forecast.entity.HeWeather6[] getHeWeather6() {
+    public hey.forecast.entity.response.HeWeather6[] getHeWeather6() {
         return HeWeather6;
     }
 
-    public void setHeWeather6(hey.forecast.entity.HeWeather6[] heWeather6) {
+    public void setHeWeather6(hey.forecast.entity.response.HeWeather6[] heWeather6) {
         HeWeather6 = heWeather6;
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="@dimen/padding_small"
+    android:paddingStart="@dimen/margin_middle"
+    tools:ignore="RtlSymmetry">
+
+    <TextView
+        android:id="@+id/text_view_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="广州市" />
+
+    <TextView
+        android:id="@+id/text_view_weather_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_city"
+        android:textSize="12sp"
+        tools:text="阴 11'" />
+
+    <ImageButton
+        android:id="@+id/image_view_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/text_view_weather_temperature"
+        android:layout_marginTop="@dimen/padding_small"
+        android:src="@android:color/darker_gray" />
+</RelativeLayout>

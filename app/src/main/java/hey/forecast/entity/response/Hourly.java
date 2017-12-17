@@ -1,33 +1,47 @@
-package hey.forecast.entity;
+package hey.forecast.entity.response;
 
 /**
  * Created by yhb on 17-12-14.
  */
 
-public class Now {
-    String cond_code;//: "101",
-    String cond_txt;//: "多云",
-    String fl;//: "16",
-    String hum;//: "73",
-    String pcpn;//: "0",
-    String pres;//: "1017",
+public class Hourly {
+    String cloud,//: "0",
+            cond_code,//: "test",
+            cond_txt,//: "晴",
+            hum,//: "73",
+            pop,//: "0",
+            pres,//: "1016",
+            time,//: "2017-10-27 16:00",
+            tmp,//: "15",
+            wind_deg,//: "162",
+            wind_dir,//: "东南风",
+            wind_sc,//: "微风",
+            wind_spd;//: "6"
 
     @Override
     public String toString() {
-        return "Now{" +
-                "cond_code='" + cond_code + '\'' +
+        return "Hourly{" +
+                "cloud='" + cloud + '\'' +
+                ", cond_code='" + cond_code + '\'' +
                 ", cond_txt='" + cond_txt + '\'' +
-                ", fl='" + fl + '\'' +
                 ", hum='" + hum + '\'' +
-                ", pcpn='" + pcpn + '\'' +
+                ", pop='" + pop + '\'' +
                 ", pres='" + pres + '\'' +
+                ", time='" + time + '\'' +
                 ", tmp='" + tmp + '\'' +
-                ", vis='" + vis + '\'' +
                 ", wind_deg='" + wind_deg + '\'' +
                 ", wind_dir='" + wind_dir + '\'' +
                 ", wind_sc='" + wind_sc + '\'' +
                 ", wind_spd='" + wind_spd + '\'' +
                 '}';
+    }
+
+    public String getCloud() {
+        return cloud;
+    }
+
+    public void setCloud(String cloud) {
+        this.cloud = cloud;
     }
 
     public String getCond_code() {
@@ -46,14 +60,6 @@ public class Now {
         this.cond_txt = cond_txt;
     }
 
-    public String getFl() {
-        return fl;
-    }
-
-    public void setFl(String fl) {
-        this.fl = fl;
-    }
-
     public String getHum() {
         return hum;
     }
@@ -62,12 +68,12 @@ public class Now {
         this.hum = hum;
     }
 
-    public String getPcpn() {
-        return pcpn;
+    public String getPop() {
+        return pop;
     }
 
-    public void setPcpn(String pcpn) {
-        this.pcpn = pcpn;
+    public void setPop(String pop) {
+        this.pop = pop;
     }
 
     public String getPres() {
@@ -78,20 +84,20 @@ public class Now {
         this.pres = pres;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public String getTmp() {
         return tmp;
     }
 
     public void setTmp(String tmp) {
         this.tmp = tmp;
-    }
-
-    public String getVis() {
-        return vis;
-    }
-
-    public void setVis(String vis) {
-        this.vis = vis;
     }
 
     public String getWind_deg() {
@@ -125,11 +131,4 @@ public class Now {
     public void setWind_spd(String wind_spd) {
         this.wind_spd = wind_spd;
     }
-
-    String tmp;//: "14",
-    String vis;//: "1",
-    String wind_deg;//: "11",
-    String wind_dir;//: "北风",
-    String wind_sc;//: "微风",
-    String wind_spd;//: "6"
 }

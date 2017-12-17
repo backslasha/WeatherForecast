@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 /**
  * Created by yhb on 17-12-15.
  */
-public class MainPresenterTest {
+public class MainCityChoosePresenterTest {
 
     private MainContract.View fragment = new MainFragment();
     MainPresenter mMainPresenter = new MainPresenter(fragment);

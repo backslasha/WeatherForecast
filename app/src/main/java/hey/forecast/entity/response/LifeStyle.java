@@ -1,4 +1,4 @@
-package hey.forecast.entity;
+package hey.forecast.entity.response;
 
 /**
  * Created by yhb on 17-12-14.

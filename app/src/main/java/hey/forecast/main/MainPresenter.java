@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 
-import hey.forecast.entity.Data;
+import hey.forecast.entity.response.Data;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;

@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import hey.forecast.R;
-import hey.forecast.entity.Now;
+import hey.forecast.entity.response.Now;
 
 
 public class AttrAdapter extends RecyclerView.Adapter<AttrAdapter.AttrVieHolder> {
@@ -75,7 +75,7 @@ public class AttrAdapter extends RecyclerView.Adapter<AttrAdapter.AttrVieHolder>
     }
 
 
-    static final String[] json_keys_now = new String[]{
+    public static final String[] json_keys_now = new String[]{
             "fl",
             "wind_dir", "wind_sc",
             "wind_spd", "hum", "pcpn",

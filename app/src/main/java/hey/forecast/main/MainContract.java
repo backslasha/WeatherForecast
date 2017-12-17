@@ -2,11 +2,11 @@ package hey.forecast.main;
 
 import hey.forecast.BasePresenter;
 import hey.forecast.BaseView;
-import hey.forecast.entity.Basic;
-import hey.forecast.entity.DailyForecast;
-import hey.forecast.entity.Hourly;
-import hey.forecast.entity.LifeStyle;
-import hey.forecast.entity.Now;
+import hey.forecast.entity.response.Basic;
+import hey.forecast.entity.response.DailyForecast;
+import hey.forecast.entity.response.Hourly;
+import hey.forecast.entity.response.LifeStyle;
+import hey.forecast.entity.response.Now;
 
 /**
  * Created by yhb on 17-12-14.

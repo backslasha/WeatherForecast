@@ -1,5 +1,7 @@
 package hey.forecast.main;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,8 +12,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import hey.forecast.R;
+import hey.forecast.choose_city.CityChooseActivity;
 import hey.forecast.util.ActivityUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
             mainFragment = MainFragment.newInstance();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     mainFragment, R.id.container);
-            mPresenter = new MainPresenter(mainFragment);
         }
+        mPresenter = new MainPresenter(mainFragment);
 
         int screenHeight = ActivityUtils.getScreenHeight(this);
 
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitleTextColor(Color.GRAY);
         setSupportActionBar(mToolbar);
+
     }
 
     @Override
@@ -62,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.city_manage:
+                Intent intent = CityChooseActivity.newIntent(this);
+                startActivity(intent);
                 break;
             case R.id.setting:
                 break;

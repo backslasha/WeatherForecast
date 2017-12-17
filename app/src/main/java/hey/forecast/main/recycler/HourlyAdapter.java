@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import hey.forecast.R;
-import hey.forecast.entity.Hourly;
+import hey.forecast.entity.response.Hourly;
 import hey.forecast.util.AdapterDataExtractor;
 
 

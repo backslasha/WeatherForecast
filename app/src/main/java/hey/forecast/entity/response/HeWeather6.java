@@ -1,4 +1,4 @@
-package hey.forecast.entity;
+package hey.forecast.entity.response;
 
 import java.util.Arrays;
 

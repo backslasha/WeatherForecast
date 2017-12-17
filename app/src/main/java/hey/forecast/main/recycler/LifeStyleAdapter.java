@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import hey.forecast.R;
-import hey.forecast.entity.LifeStyle;
+import hey.forecast.entity.response.LifeStyle;
 
 /**
  * Created by yhb on 17-12-15.
