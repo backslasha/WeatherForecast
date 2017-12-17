@@ -1,7 +1,9 @@
 package hey.forecast.add_city;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import hey.forecast.R;
+import hey.forecast.choose_city.CityChooseFragment;
 import hey.forecast.common.SimpleAdapter;
 import hey.forecast.common.SimpleHolder;
 
@@ -48,7 +51,7 @@ public class CityAddFragment extends android.support.v4.app.Fragment implements 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fargment_city_add, container, false);
         mRecyclerView = view.findViewById(R.id.recycler_view_hot_cities);
         mRecyclerView.setAdapter(new SimpleAdapter<String>(getActivity(), R.layout.item_city_hot) {
@@ -78,12 +81,15 @@ public class CityAddFragment extends android.support.v4.app.Fragment implements 
         mRecyclerViewQueryResult.setAdapter(
                 new SimpleAdapter<String>(getActivity(), R.layout.item_simple_text_view) {
             @Override
-            public void forEachHolder(SimpleHolder holder, final String s) {
-                ((TextView) holder.itemView).setText(s);
+            public void forEachHolder(SimpleHolder holder, final String cityName) {
+                ((TextView) holder.itemView).setText(cityName);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
+                        Intent intent = getActivity().getIntent();
+                        intent.putExtra(CityChooseFragment.CITY_NAME,cityName);
+                        getActivity().setResult(Activity.RESULT_OK, intent);
+                        getActivity().finish();
                     }
                 });
             }

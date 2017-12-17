@@ -2,9 +2,9 @@ package hey.forecast.choose_city;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,14 +20,18 @@ import hey.forecast.common.SimpleHolder;
 import hey.forecast.common.SimpleItemTouchHelper;
 import hey.forecast.entity.City;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by yhb on 17-12-16.
  */
 
 public class CityChooseFragment extends android.support.v4.app.Fragment implements CityChooseContract.View {
 
+    private static final int ADD_CITY = 1;
+    public static final String CITY_NAME = "CITY_NAME";
     private CityChooseContract.Presenter mPresenter;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerViewCity;
     private FloatingActionButton mFab;
 
     @Nullable
@@ -40,12 +44,12 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
             @Override
             public void onClick(View v) {
                 Intent intent = CityAddActivity.newIntent(getActivity());
-                startActivity(intent);
+                startActivityForResult(intent, ADD_CITY);
             }
         });
 
-        mRecyclerView = view.findViewById(R.id.recycler_view_city_choose);
-        mRecyclerView.setAdapter(new SimpleAdapter<City>(getActivity(), R.layout.item_city) {
+        mRecyclerViewCity = view.findViewById(R.id.recycler_view_city_choose);
+        mRecyclerViewCity.setAdapter(new SimpleAdapter<City>(getActivity(), R.layout.item_city) {
             @Override
             public void forEachHolder(SimpleHolder holder, final City city) {
                 ((TextView) holder.getView(R.id.text_view_city)).setText(city.getName());
@@ -69,17 +73,30 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
 
             }
         });
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerViewCity.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        ((SimpleAdapter<City>) mRecyclerView.getAdapter()).performDataChanged(
+        ((SimpleAdapter<City>) mRecyclerViewCity.getAdapter()).performDataChanged(
                 new City[]{
                         new City("广州", "晴天", "8"),
                         new City("汕头", "阴天", "-3"),
                         new City("北京", "晴天", "8")
                 }
         );
-        new SimpleItemTouchHelper().attachToRecyclerView(mRecyclerView);
+        new SimpleItemTouchHelper().attachToRecyclerView(mRecyclerViewCity);
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_CITY && resultCode == RESULT_OK) {
+            if (data != null) {
+                String cityName = data.getStringExtra(CITY_NAME);
+                ((SimpleAdapter<City>) mRecyclerViewCity.getAdapter())
+                        .addSingleData(new City(cityName, "", ""));
+                Snackbar.make(getView(), "新增城市:" + cityName, Snackbar.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override

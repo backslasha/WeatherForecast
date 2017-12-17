@@ -6,6 +6,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import hey.forecast.R;
 
 /**
@@ -15,7 +19,7 @@ import hey.forecast.R;
 public abstract class SimpleAdapter<Entity> extends RecyclerView.Adapter<SimpleHolder> {
     protected Context mContext;
     protected int mLayoutId;
-    protected Entity[] mEntities;
+    protected List<Entity> mEntities;
     protected LayoutInflater mInflater;
 
 
@@ -32,18 +36,27 @@ public abstract class SimpleAdapter<Entity> extends RecyclerView.Adapter<SimpleH
 
     @Override
     public void onBindViewHolder(SimpleHolder holder, int position) {
-        forEachHolder(holder, mEntities[position]);
+        forEachHolder(holder, mEntities.get(position));
     }
 
     public abstract void forEachHolder(SimpleHolder holder, Entity entity);
 
-    public void performDataChanged(Entity[] entities){
+    public void performDataChanged(Entity[] entities) {
         if (entities == null) {
             Toast.makeText(mContext, R.string.netError, Toast.LENGTH_SHORT).show();
             return;
         }
-        this.mEntities = entities;
+        this.mEntities = new ArrayList<>();
+        this.mEntities.addAll(Arrays.asList(entities));
         notifyItemChanged(0, entities.length);
+    }
+
+    public void addSingleData(Entity entity) {
+        if (mEntities == null) {
+            throw new IllegalArgumentException("performDataChanged() first to create a array inside!");
+        }
+        mEntities.add(entity);
+        notifyItemInserted(mEntities.size() - 1);
     }
 
     @Override
@@ -51,6 +64,6 @@ public abstract class SimpleAdapter<Entity> extends RecyclerView.Adapter<SimpleH
         if (mEntities == null) {
             return 0;
         }
-        return mEntities.length;
+        return mEntities.size();
     }
 }
