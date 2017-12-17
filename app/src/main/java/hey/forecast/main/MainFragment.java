@@ -42,7 +42,7 @@ import static hey.forecast.util.Const.EXTRA_CITY_NAME;
  */
 
 public class MainFragment extends Fragment implements MainContract.View {
-    private static final int SWITCH_CITY = 3;
+    private static final int REQUEST_CODE_SWITCH_CITY = 3;
     private MainContract.Presenter mPresenter;
     private RecyclerView mRecyclerViewAttr, mRecyclerViewHourly, mRecyclerViewDailyForecast, mRecyclerViewLifeStyle;
     private SeekBar mSeekBar;
@@ -203,11 +203,10 @@ public class MainFragment extends Fragment implements MainContract.View {
         });
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SWITCH_CITY && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_SWITCH_CITY && resultCode == RESULT_OK) {
             if (data != null) {
                 String cityName = data.getStringExtra(EXTRA_CITY_NAME);
                 mPresenter.setCurrentCity(cityName);
@@ -230,9 +229,7 @@ public class MainFragment extends Fragment implements MainContract.View {
         switch (item.getItemId()) {
             case R.id.city_manage:
                 Intent intent = CityChooseActivity.newIntent(getActivity());
-                startActivityForResult(intent, SWITCH_CITY);
-                break;
-            case R.id.setting:
+                startActivityForResult(intent, REQUEST_CODE_SWITCH_CITY);
                 break;
             case R.id.share:
                 break;

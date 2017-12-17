@@ -41,7 +41,7 @@ public class CityAddFragment extends android.support.v4.app.Fragment implements 
     }
 
     private CityAddContract.Presenter mPresenter;
-    private RecyclerView mRecyclerView, mRecyclerViewQueryResult;
+    private RecyclerView mRecyclerViewHotCities, mRecyclerViewQueryResult;
     private SearchView mSearchView;
 
     @Override
@@ -54,47 +54,43 @@ public class CityAddFragment extends android.support.v4.app.Fragment implements 
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fargment_city_add, container, false);
-        mRecyclerView = view.findViewById(R.id.recycler_view_hot_cities);
-        mRecyclerView.setAdapter(new SimpleAdapter<String>(getActivity(), R.layout.item_city_hot) {
+        mRecyclerViewHotCities = view.findViewById(R.id.recycler_view_hot_cities);
+        mRecyclerViewHotCities.setAdapter(new SimpleAdapter<String>(getActivity(), R.layout.item_city_hot) {
             @Override
             public void forEachHolder(SimpleHolder holder, final String city) {
-                Button button = holder.itemView.findViewById(R.id.button_hot_city);
+                final Button button = holder.itemView.findViewById(R.id.button_hot_city);
                 button.setText(city);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(mContext, city, Toast.LENGTH_SHORT).show();
+                        mSearchView.setQuery(button.getText(),true);
                     }
                 });
             }
         });
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        mRecyclerViewHotCities.setLayoutManager(new GridLayoutManager(getActivity(), 4));
 
-        ((SimpleAdapter<String>) mRecyclerView.getAdapter())
-                .performDataChanged(new String[]{
-                        "广州", "西安", "北京", "上海",
-                        "杭州", "南京", "苏州", "深圳",
-                        "成都", "重庆", "天津", "武汉"
-                });
+        ((SimpleAdapter<String>) mRecyclerViewHotCities.getAdapter())
+                .performDataChanged(getResources().getStringArray(R.array.hot_cities));
 
         mRecyclerViewQueryResult = view.findViewById(R.id.recycler_view_query_result);
         mRecyclerViewQueryResult.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewQueryResult.setAdapter(
                 new SimpleAdapter<String>(getActivity(), R.layout.item_simple_text_view) {
-            @Override
-            public void forEachHolder(SimpleHolder holder, final String cityName) {
-                ((TextView) holder.itemView).setText(cityName);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        Intent intent = getActivity().getIntent();
-                        intent.putExtra(EXTRA_CITY_NAME,cityName);
-                        getActivity().setResult(Activity.RESULT_OK, intent);
-                        getActivity().finish();
+                    public void forEachHolder(SimpleHolder holder, final String cityName) {
+                        ((TextView) holder.itemView).setText(cityName);
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = getActivity().getIntent();
+                                intent.putExtra(EXTRA_CITY_NAME, cityName);
+                                getActivity().setResult(Activity.RESULT_OK, intent);
+                                getActivity().finish();
+                            }
+                        });
                     }
-                });
-            }
-        }
+                }
         );
 
         return view;

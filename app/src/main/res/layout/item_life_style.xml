@@ -23,7 +23,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/ic_life_style_comforts" />
+            tools:src="@drawable/ic_life_style_unkown" />
 
         <TextView
             android:id="@+id/text_view_life_style_type"

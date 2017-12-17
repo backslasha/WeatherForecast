@@ -17,4 +17,20 @@
     <string name="refresh">刷新</string>
     <string name="search">Search</string>
     <string name="search_hint">搜索</string>
+    <string name="bug_notice">你知道吗，和风天气逐小时预报的免费版接口在每天晚会11点会坏掉两个小时</string>
+
+    <string-array name="hot_cities">
+        <item>广州</item>
+        <item>西安</item>
+        <item>北京</item>
+        <item>上海</item>
+        <item>杭州</item>
+        <item>南京</item>
+        <item>苏州</item>
+        <item>深圳</item>
+        <item>成都</item>
+        <item>重庆</item>
+        <item>天津</item>
+        <item>武汉</item>
+    </string-array>
 </resources>

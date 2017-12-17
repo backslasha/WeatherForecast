@@ -98,7 +98,6 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
 //        new SimpleItemTouchHelper().attachToRecyclerView(recyclerViewCity);
     }
 
-
     private void requestSwitchTo(String city) {
         Intent intent = getActivity().getIntent();
         intent.putExtra(EXTRA_CITY_NAME, city);
@@ -136,6 +135,8 @@ public class CityChooseFragment extends android.support.v4.app.Fragment implemen
                         .addSingleData(cityName);
 
                 mPresenter.saveCitesToSP(cityName);
+                mPresenter.getWeatherAndTemperature();
+
                 Snackbar.make(getView(), "新增城市:" + cityName, Snackbar.LENGTH_SHORT).show();
 
             }

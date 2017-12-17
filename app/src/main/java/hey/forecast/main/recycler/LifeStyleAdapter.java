@@ -25,7 +25,6 @@ public class LifeStyleAdapter extends RecyclerView.Adapter<LifeStyleAdapter.Life
     }
 
     @Override
-
     public LifeStyleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_life_style, parent, false);
         return new LifeStyleAdapter.LifeStyleViewHolder(inflate);
@@ -66,7 +65,7 @@ public class LifeStyleAdapter extends RecyclerView.Adapter<LifeStyleAdapter.Life
             switch (lifeStyle.getType()) {
                 case "comf":
                     type = "舒适度指数";
-                    drawable = mContext.getResources().getDrawable(R.drawable.ic_life_style_comforts);
+                    drawable = mContext.getResources().getDrawable(R.drawable.ic_life_style_comfort);
                     break;
                 case "cw":
                     type = "洗车指数";
@@ -80,9 +79,25 @@ public class LifeStyleAdapter extends RecyclerView.Adapter<LifeStyleAdapter.Life
                     type = "紫外线指数";
                     drawable = mContext.getResources().getDrawable(R.drawable.ic_life_style_ultra_violent);
                     break;
+                case "drsg":
+                    type = "穿衣指数";
+                    drawable = mContext.getResources().getDrawable(R.drawable.ic_life_style_cloth);
+                    break;
+                case "trav":
+                    type = "旅游指数";
+                    drawable = mContext.getResources().getDrawable(R.drawable.ic_life_style_trav);
+                    break;
+                case "flu":
+                    type = "感冒指数";
+                    drawable = mContext.getResources().getDrawable(R.drawable.ic_life_style_flu);
+                    break;
+                case "air":
+                    type = "空气指数";
+                    drawable = mContext.getResources().getDrawable(R.drawable.ic_life_style_air);
+                    break;
                 default:
                     type = lifeStyle.getType();
-                    drawable = mContext.getResources().getDrawable(R.drawable.ic_life_style_comforts);
+                    drawable = mContext.getResources().getDrawable(R.drawable.ic_life_style_unkown);
                     break;
 
             }

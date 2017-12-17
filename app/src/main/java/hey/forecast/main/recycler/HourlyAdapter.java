@@ -43,7 +43,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.HourlyView
 
     public void flush(Hourly[] hourlies) {
         if (hourlies == null) {
-            Toast.makeText(context, R.string.netError, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.bug_notice, Toast.LENGTH_LONG).show();
             return;
         }
         this.mHourlies = hourlies;
