@@ -1,14 +1,20 @@
 package hey.forecast.main;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import hey.forecast.entity.response.Data;
+import hey.forecast.util.ActivityUtils;
+import hey.forecast.util.Const;
 import hey.forecast.util.SPUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -23,6 +29,7 @@ import static hey.forecast.util.Const.HOURLY;
 import static hey.forecast.util.Const.KEY;
 import static hey.forecast.util.Const.LIFESTYLE;
 import static hey.forecast.util.Const.NOW;
+import static hey.forecast.util.Const.WALL_PAPER;
 import static hey.forecast.util.Const.okHttp;
 
 public class MainPresenter implements MainContract.Presenter {
@@ -45,6 +52,7 @@ public class MainPresenter implements MainContract.Presenter {
         getWeatherHourly();
         getWeatherDailyForecast();
         getWeatherLifeStyle();
+//        getWallPaper();
     }
 
     @Override
@@ -167,6 +175,40 @@ public class MainPresenter implements MainContract.Presenter {
                         data.getHeWeather6()[0].getDaily_forecast(),
                         data.getHeWeather6()[0].getBasic()
                 );
+            }
+
+        });
+    }
+
+    @Override
+    public void getWallPaper() {
+        final HttpUrl httpUrl = HttpUrl.parse(WALL_PAPER)
+                .newBuilder()
+                .addQueryParameter("n", "1")
+                .addQueryParameter("w", String.valueOf(Const.screenWidth))
+                .addQueryParameter("h", String.valueOf(Const.screenHeight))
+                .build();
+        final Request request = new Request.Builder()
+                .url(httpUrl)
+                .get()
+                .build();
+        Call call = okHttp.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, IOException e) {
+                Log.e(TAG, "onFailure: ", e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
+                InputStream inputStream = response.body().byteStream();
+                if (inputStream != null) {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 2;
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
+                    Log.d(TAG, "onResponse: " + bitmap.getConfig().name() + ":" + bitmap.getHeight() + "," + bitmap.getWidth());
+                    mMainView.setWallPaper(bitmap);
+                }
             }
 
         });

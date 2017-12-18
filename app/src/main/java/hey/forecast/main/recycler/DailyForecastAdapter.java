@@ -78,7 +78,7 @@ public class DailyForecastAdapter extends RecyclerView.Adapter<DailyForecastAdap
             );
             mTextViewWeather.setText(dailyForecast.getCond_txt_d());
             mTextViewTemperatureRange.setText(
-                    String.format("%s℃~%s℃",
+                    String.format("%4s℃~%s℃",
                             dailyForecast.getTmp_min(),
                             dailyForecast.getTmp_max()
                     )

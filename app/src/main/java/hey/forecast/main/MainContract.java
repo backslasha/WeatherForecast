@@ -1,5 +1,7 @@
 package hey.forecast.main;
 
+import android.graphics.Bitmap;
+
 import hey.forecast.BasePresenter;
 import hey.forecast.BaseView;
 import hey.forecast.entity.response.Basic;
@@ -20,6 +22,7 @@ public interface MainContract {
         void showWeatherDailyForecast(DailyForecast[] dailyForecasts, Basic basic);
         void showWeatherHourly(Hourly[] hourlies, Basic basic);
         void showWeatherLifeStyle(LifeStyle[] lifeStyles, Basic basic);
+        void setWallPaper(Bitmap bitmap);
 
     }
     interface Presenter extends BasePresenter{
@@ -28,5 +31,6 @@ public interface MainContract {
         void getWeatherHourly();
         void getWeatherLifeStyle();
         void getWeatherDailyForecast();
+        void getWallPaper();
     }
 }

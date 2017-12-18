@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="hey.forecast.main.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -23,6 +24,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed">
 
             <include
+                app:layout_collapseParallaxMultiplier="0.5"
                 layout="@layout/include_temperature"
                 android:layout_width="match_parent"
                 android:layout_height="290dp"

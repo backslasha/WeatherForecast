@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/text_view_date_daily"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:text="今天 12/15" />
@@ -29,14 +29,14 @@
     <TextView
         android:textSize="16sp"
         android:id="@+id/text_view_weather_daily"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:text="晴" />
 
     <TextView
         android:id="@+id/text_view_temperature_range_daily"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="16sp"

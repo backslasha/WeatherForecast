@@ -1,6 +1,8 @@
 package hey.forecast.main;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -199,6 +201,16 @@ public class MainFragment extends Fragment implements MainContract.View {
             @Override
             public void run() {
                 ((LifeStyleAdapter) mRecyclerViewLifeStyle.getAdapter()).flush(lifeStyles);
+            }
+        });
+    }
+
+    @Override
+    public void setWallPaper(final Bitmap bitmap) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAppBarLayout.setBackground(new BitmapDrawable(getResources(), bitmap));
             }
         });
     }

@@ -11,6 +11,7 @@ import android.view.View;
 
 import hey.forecast.R;
 import hey.forecast.util.ActivityUtils;
+import hey.forecast.util.Const;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary, getTheme()));
+            getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent, getTheme()));
         }
 
 
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitleTextColor(Color.GRAY);
         setSupportActionBar(mToolbar);
+
+        Const.screenHeight = ActivityUtils.getScreenHeight(this);
+        Const.screenWidth = ActivityUtils.getScreenWidth(this);
 
     }
 

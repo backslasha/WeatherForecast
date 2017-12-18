@@ -31,7 +31,7 @@ public class Const {
     public static final String EXTRA_CITY_NAME = "EXTRA_CITY_NAME";
     public static final String SP_KEY_CURRENT_CITY = "sp_key_current_city";
 
-    public static final String WALL_PAPER = "https://bing.ioliu.cn/v1?d=1&w=1280&h=768";
+    public static final String WALL_PAPER = "https://bing.ioliu.cn/v1";
 
     public static final String[] CITIES = {
             "北京", "海淀", "朝阳", "顺义", "怀柔", "通州", "昌平", "延庆", "丰台", "石景山",
@@ -356,4 +356,6 @@ public class Const {
     };
 
     public static final HashSet<String> CITIES_SET = new HashSet<>(Arrays.asList(CITIES));
+    public static int screenHeight = -1;
+    public static int screenWidth = -1;
 }
