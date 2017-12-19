@@ -58,6 +58,7 @@ public class MainFragment extends Fragment implements MainContract.View {
 
         int screenHeight = ActivityUtils.getScreenHeight(getActivity());
         mRecyclerViewAttr = view.findViewById(R.id.recycler_view_attr);
+        mRecyclerViewAttr.setNestedScrollingEnabled(false);
         mRecyclerViewAttr.getLayoutParams().height = (int) (screenHeight * ActivityUtils.DOWN_PART_PERCENT);
         mRecyclerViewAttr.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewAttr.setAdapter(new AttrAdapter(getActivity()));
@@ -65,12 +66,15 @@ public class MainFragment extends Fragment implements MainContract.View {
         mRecyclerViewHourly = view.findViewById(R.id.recycler_view_hourly);
         mRecyclerViewHourly.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerViewHourly.setAdapter(new HourlyAdapter(getActivity()));
+        mRecyclerViewHourly.setNestedScrollingEnabled(false);
 
         mRecyclerViewDailyForecast = view.findViewById(R.id.recycler_view_daily_forecast);
+        mRecyclerViewDailyForecast.setNestedScrollingEnabled(false);
         mRecyclerViewDailyForecast.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewDailyForecast.setAdapter(new DailyForecastAdapter(getActivity()));
 
         mRecyclerViewLifeStyle = view.findViewById(R.id.recycler_view_life_style);
+        mRecyclerViewLifeStyle.setNestedScrollingEnabled(false);
         mRecyclerViewLifeStyle.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         mRecyclerViewLifeStyle.setAdapter(new LifeStyleAdapter(getActivity()));
 

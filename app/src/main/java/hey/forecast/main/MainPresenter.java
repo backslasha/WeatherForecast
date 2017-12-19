@@ -55,29 +55,39 @@ public class MainPresenter implements MainContract.Presenter {
 //        getWallPaper();
     }
 
+    /**
+     * 发送请求获取天气实况数据，若成功，则将数据解析成实体类，再刷新界面
+     */
     @Override
     public void getWeatherNow() {
+        // 拼凑 URL
         final HttpUrl httpUrl = HttpUrl.parse(ENDPOINT + NOW)
                 .newBuilder()
                 .addQueryParameter("key", KEY)
                 .addQueryParameter("location", mCurrentCity)
                 .build();
+
+        // 构造请求
         final Request request = new Request.Builder()
                 .url(httpUrl)
                 .get()
                 .build();
 
+        // 显示正在加载的进度条
         mMainView.showProgressBar();
 
+        // 发送请求并设置回调函数
         Call call = okHttp.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, IOException e) {
+                // 失败时，仅仅停止显示进度条
                 mMainView.hideProgressBar();
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
+                // 成功时，停止向时进度条，并使用数据刷新界面
                 mMainView.hideProgressBar();
                 String dataString = response.body().string();
                 Data data = new Gson().fromJson(dataString, Data.class);
@@ -87,6 +97,9 @@ public class MainPresenter implements MainContract.Presenter {
         });
     }
 
+    /**
+     * 发送请求获取逐小时天气实况数据，若成功，则将数据解析成实体类，再刷新界面
+     */
     @Override
     public void getWeatherHourly() {
         final HttpUrl httpUrl = HttpUrl.parse(ENDPOINT + HOURLY)
@@ -118,6 +131,9 @@ public class MainPresenter implements MainContract.Presenter {
         });
     }
 
+    /**
+     * 发送请求获取生活指数数据，若成功，则将数据解析成实体类，再刷新界面
+     */
     @Override
     public void getWeatherLifeStyle() {
         final HttpUrl httpUrl = HttpUrl.parse(ENDPOINT + LIFESTYLE)
@@ -149,6 +165,9 @@ public class MainPresenter implements MainContract.Presenter {
         });
     }
 
+    /**
+     * 发送请求获取未来七天天气实况数据，若成功，则将数据解析成实体类，再刷新界面
+     */
     @Override
     public void getWeatherDailyForecast() {
         final HttpUrl httpUrl = HttpUrl.parse(ENDPOINT + FORECAST)
