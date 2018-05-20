@@ -1,6 +1,7 @@
 package hey.forecast.add_city;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -117,5 +118,10 @@ public class CityAddFragment extends android.support.v4.app.Fragment implements 
         ((SimpleAdapter<String>) mRecyclerViewQueryResult.getAdapter())
                 .performDataChanged(results.toArray(new String[results.size()]));
         mRecyclerViewQueryResult.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public Context getContext() {
+        return getActivity();
     }
 }

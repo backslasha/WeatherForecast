@@ -46,8 +46,7 @@ public abstract class SimpleAdapter<Entity> extends RecyclerView.Adapter<SimpleH
             Toast.makeText(mContext, R.string.netError, Toast.LENGTH_SHORT).show();
             return;
         }
-        this.mEntities = new ArrayList<>();
-        this.mEntities.addAll(Arrays.asList(entities));
+        this.mEntities = new ArrayList<>(Arrays.asList(entities));
         notifyItemRangeChanged(0, mEntities.size());
     }
 
