@@ -5,8 +5,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 
 import hey.forecast.R;
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private MainPresenter mPresenter;
     private Toolbar mToolbar;
     private CollapsingToolbarLayout mToolbarLayout;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -26,6 +29,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Const.screenHeight = ActivityUtils.getScreenHeight(this);
+        Const.screenWidth = ActivityUtils.getScreenWidth(this);
+
+        mRefreshLayout = findViewById(R.id.refresh_layout);
+        mRefreshLayout.setProgressViewOffset(true, Const.screenHeight / 20, Const.screenHeight = ActivityUtils.getScreenHeight(this)/5);
+        Const.screenWidth = ActivityUtils.getScreenWidth(this);
+
+        //设置刷新progressbar颜色
+        mRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.YELLOW, Color.RED);
+        //设置刷新监听
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.start();
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -50,10 +69,14 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setTitleTextColor(Color.GRAY);
         setSupportActionBar(mToolbar);
 
-        Const.screenHeight = ActivityUtils.getScreenHeight(this);
-        Const.screenWidth = ActivityUtils.getScreenWidth(this);
 
     }
 
-
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            mRefreshLayout.setEnabled(event.getRawY() < ActivityUtils.getScreenHeight(this) / 5);
+        }
+        return super.dispatchTouchEvent(event);
+    }
 }

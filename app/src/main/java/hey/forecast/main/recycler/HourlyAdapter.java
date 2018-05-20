@@ -47,7 +47,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.HourlyView
             return;
         }
         this.mHourlies = hourlies;
-        notifyItemChanged(0, hourlies.length);
+        notifyItemRangeChanged(0, hourlies.length);
     }
 
     class HourlyViewHolder extends RecyclerView.ViewHolder {

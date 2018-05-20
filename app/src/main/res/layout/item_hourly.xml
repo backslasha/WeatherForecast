@@ -1,40 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/margin_middle"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingEnd="@dimen/padding_small"
-    android:paddingStart="@dimen/padding_small">
+    android:layout_marginEnd="@dimen/margin_small"
+    android:clickable="true"
+    android:focusable="true"
+    android:stateListAnimator="@animator/lift_on_touch"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    tools:ignore="UnusedAttribute">
 
-    <TextView
-        android:id="@+id/text_view_time_hourly"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="0dp"
-        android:textSize="12sp"
-        tools:text="11:00" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="@dimen/padding_small">
 
-    <ImageView
-        android:id="@+id/image_view_weather_hourly"
-        android:layout_width="@dimen/small_weather_icon_size"
-        android:layout_height="@dimen/small_weather_icon_size"
-        android:padding="0dp"
-        android:src="@drawable/ic_umberella" />
+        <TextView
+            android:id="@+id/text_view_time_hourly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:textSize="12sp"
+            tools:text="11:00" />
 
-    <TextView
-        android:id="@+id/text_view_weather_hourly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        tools:text="晴" />
+        <ImageView
+            android:id="@+id/image_view_weather_hourly"
+            android:layout_width="@dimen/small_weather_icon_size"
+            android:layout_height="@dimen/small_weather_icon_size"
+            android:padding="0dp"
+            android:src="@drawable/ic_umberella" />
 
-    <TextView
-        android:id="@+id/text_view_temperature_hourly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        tools:text="@string/temperature_unit" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/text_view_weather_hourly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="晴" />
+
+        <TextView
+            android:id="@+id/text_view_temperature_hourly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="@string/temperature_unit" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -10,6 +10,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import hey.forecast.R;
@@ -47,14 +47,14 @@ public class MainFragment extends Fragment implements MainContract.View {
     private static final int REQUEST_CODE_SWITCH_CITY = 3;
     private MainContract.Presenter mPresenter;
     private RecyclerView mRecyclerViewAttr, mRecyclerViewHourly, mRecyclerViewDailyForecast, mRecyclerViewLifeStyle;
-    private SeekBar mSeekBar;
 
     private TextView mTextViewTemperatureMain, mTextViewWeatherMain, mTextViewEllipseMain;
     private CollapsingToolbarLayout mActivityToolbarLayout;
     private AppBarLayout mAppBarLayout;
+    private SwipeRefreshLayout mRefreshLayout;
 
     private void bindViews(View view) {
-        mSeekBar = view.findViewById(R.id.seek_bar);
+        mRefreshLayout = getActivity().findViewById(R.id.refresh_layout);
 
         int screenHeight = ActivityUtils.getScreenHeight(getActivity());
         mRecyclerViewAttr = view.findViewById(R.id.recycler_view_attr);
@@ -120,7 +120,9 @@ public class MainFragment extends Fragment implements MainContract.View {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mSeekBar.setVisibility(View.VISIBLE);
+                if (mRefreshLayout.isEnabled() && !mRefreshLayout.isRefreshing()) {
+                    mRefreshLayout.setRefreshing(true);
+                }
             }
         });
     }
@@ -130,7 +132,9 @@ public class MainFragment extends Fragment implements MainContract.View {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mSeekBar.setVisibility(View.INVISIBLE);
+                if (mRefreshLayout.isEnabled()) {
+                    mRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }
@@ -155,8 +159,9 @@ public class MainFragment extends Fragment implements MainContract.View {
                 mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
                         if (Math.abs(verticalOffset) - appBarLayout.getTotalScrollRange() == 0) {
-                            //  Collapsed
+                            // collapsed
                             mActivityToolbarLayout.setTitle(
                                     basic.getLocation()
                                             + String.format("  %s", now.getCond_txt())
@@ -164,14 +169,14 @@ public class MainFragment extends Fragment implements MainContract.View {
                                     )
                             );
 
-
+                            mRefreshLayout.setEnabled(true);
                         } else {
-                            //Expanded
+                            //partly expanded
                             mActivityToolbarLayout.setTitle(
                                     basic.getLocation()
                             );
-
                         }
+
                     }
                 });
             }
